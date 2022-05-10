@@ -1,15 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { SchemaTimestampsConfig, Document, Types } from 'mongoose';
+import { SchemaTimestampsConfig, Document } from 'mongoose';
 
 export interface IAuth extends SchemaTimestampsConfig {
   email: string;
 }
 
-@Schema()
+@Schema({ autoIndex: true })
 export class AuthModel implements IAuth {
-  @Prop()
-  _id: Types.ObjectId;
-
   @Prop()
   passwordHash: string;
 

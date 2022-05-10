@@ -16,7 +16,9 @@ export class AuthController {
 
   @HttpCode(200)
   @Post('login')
-  async login(@Body() dto: AuthDto): Promise<AuthModel | null> {
+  async login(
+    @Body() dto: AuthDto,
+  ): Promise<Omit<AuthModel, 'passwordHash'> | null> {
     return this.authService.login(dto);
   }
 }

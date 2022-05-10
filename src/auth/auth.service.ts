@@ -1,14 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthDocument, AuthModel } from './auth.model';
 import { Model } from 'mongoose';
 import { AuthDto } from './dto/auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { hash } from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel('Auth') private authDocumentModel: Model<AuthDocument>,
+    private readonly configService: ConfigService,
+    @InjectModel(AuthModel.name) private authDocumentModel: Model<AuthDocument>,
   ) {}
 
   async register({
@@ -17,8 +19,15 @@ export class AuthService {
   }: AuthDto): Promise<Omit<AuthModel, 'passwordHash'> | null> {
     const passwordHash = await hash(
       password,
-      '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa',
+      this.configService.get<string>('auth.salt') || '',
     );
+    const user = await this.authDocumentModel.findOne({ email });
+    if (user) {
+      throw new HttpException(
+        'Such user is already exists.',
+        HttpStatus.CONFLICT,
+      );
+    }
 
     const createModel = new this.authDocumentModel({
       email,
@@ -27,14 +36,27 @@ export class AuthService {
     return createModel.save();
   }
 
-  async login({ email, password }: AuthDto): Promise<AuthModel | null> {
-    const userData = this.authDocumentModel.findOne({
-      email,
-    });
-    console.log(userData);
-    // TODO
-    // await compare(password, passwordHash);
+  async login({ email, password }: AuthDto): Promise<AuthModel> {
+    const passwordHash = await hash(
+      password,
+      this.configService.get<string>('auth.salt') || '',
+    );
 
-    return userData;
+    const user = await this.authDocumentModel
+      .findOne({
+        email,
+        passwordHash,
+      })
+      .select('-passwordHash');
+
+    if (!user) {
+      throw new HttpException(
+        'User with this name does not exist.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    console.log(user);
+    return user;
   }
 }
