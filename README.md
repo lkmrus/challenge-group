@@ -42,3 +42,10 @@ $ npm run test:cov
 - Доступ к БД через ORM (Code First, любой ORM)
 - Подготовить конфигурацию(yml,dockerfile) для развертывания всей (сервисы, бд) инфраструктуры в docker-compose.
 Исходный код приложения выложить на GitHub.
+
+### How create module
+- nest g module "service"
+- nest g class service/service.model --no-spec
+- nest g controller service --no-spec
+- mkdir ./src/service/dto
+- touch ./src/service/dto/service.dto.ts
