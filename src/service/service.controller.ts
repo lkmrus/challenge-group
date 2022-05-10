@@ -22,19 +22,17 @@ export class ServiceController {
 
   @HttpCode(201)
   @Post()
-  async create(@Body() dto: Omit<ServiceModel, '_id'>): Promise<ServiceModel> {
+  async create(@Body() dto: Omit<ServiceModel, '_id'>): Promise<void> {
     return;
   }
 
   @Get(':id')
-  async get(@Param('id') id: Pick<ServiceModel, '_id'>): Promise<ServiceModel> {
+  async get(@Param('id') id: Pick<ServiceModel, '_id'>): Promise<void> {
     return;
   }
 
   @Delete(':id')
-  async delete(
-    @Param('id') id: Pick<ServiceModel, '_id'>,
-  ): Promise<ServiceModel> {
+  async delete(@Param('id') id: Pick<ServiceModel, '_id'>): Promise<void> {
     return;
   }
 
@@ -42,7 +40,7 @@ export class ServiceController {
   async patch(
     @Param('id') id: Pick<ServiceModel, '_id'>,
     @Body() dto: ServiceDto,
-  ): Promise<ServiceModel> {
+  ): Promise<void> {
     return;
   }
 }

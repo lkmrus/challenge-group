@@ -4,7 +4,11 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AppService {
   constructor(private configService: ConfigService) {}
-  getHello(): string {
+  getHost(): string {
     return this.configService.get<string>('http.host') || '';
+  }
+
+  getPort(): number {
+    return this.configService.get<number>('http.port') || 3000;
   }
 }

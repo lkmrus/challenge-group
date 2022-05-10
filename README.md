@@ -44,8 +44,9 @@ $ npm run test:cov
 Исходный код приложения выложить на GitHub.
 
 ### How create module
-- nest g module "service"
-- nest g class service/service.model --no-spec
-- nest g controller service --no-spec
-- mkdir ./src/service/dto
-- touch ./src/service/dto/service.dto.ts
+- nest g module "company"
+- nest g class "company/company.model" --no-spec
+- nest g controller "company" --no-spec
+- mkdir "./src/company/dto"
+- touch "./src/company/dto/company.dto.ts"
+- nest g service "company" --no-spec

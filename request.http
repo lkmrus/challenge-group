@@ -1,3 +1,17 @@
-GET http://localhost:3005/
+#POST http://localhost:3006/auth/login
+#Accept: application/json
+#Content-Type: application/json
+#
+#{
+#  "email": "test",
+#  "password": "123"
+#}
+
+POST http://localhost:3007/auth/register
 Accept: application/json
 Content-Type: application/json
+
+{
+"email": "test@gmail.com",
+"password": "123123"
+}

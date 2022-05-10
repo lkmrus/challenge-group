@@ -16,19 +16,17 @@ import { ServiceModel } from '../service/service.model';
 export class CompanyController {
   @HttpCode(201)
   @Post()
-  async create(@Body() dto: Omit<CompanyModel, '_id'>): Promise<CompanyModel> {
+  async create(@Body() dto: Omit<CompanyModel, '_id'>): Promise<void> {
     return;
   }
 
   @Get(':id')
-  async get(@Param('id') id: Pick<CompanyModel, '_id'>): Promise<CompanyModel> {
+  async get(@Param('id') id: Pick<CompanyModel, '_id'>): Promise<void> {
     return;
   }
 
   @Delete(':id')
-  async delete(
-    @Param('id') id: Pick<CompanyModel, '_id'>,
-  ): Promise<CompanyModel> {
+  async delete(@Param('id') id: Pick<CompanyModel, '_id'>): Promise<void> {
     return;
   }
 
@@ -36,7 +34,7 @@ export class CompanyController {
   async patch(
     @Param('id') id: Pick<CompanyModel, '_id'>,
     @Body() dto: CompanyDto,
-  ): Promise<CompanyModel> {
+  ): Promise<void> {
     return;
   }
 
@@ -48,6 +46,6 @@ export class CompanyController {
       serviceId: Pick<ServiceModel, '_id'>;
     },
   ): Promise<ServiceModel[]> {
-    return;
+    return [];
   }
 }
