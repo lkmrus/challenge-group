@@ -1,3 +1,10 @@
-GET http://localhost:3007/company/
+POST http://localhost:3007/company/search
 Accept: application/json
 Content-Type: application/json
+
+#{
+#  "title": "MICROSOFT",
+#  "phone": "",
+#  "status": "Main",
+#  "createdAt": "Sun May 17 2022 23:56:21"
+#}

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, SchemaTimestampsConfig } from 'mongoose';
+import { Document, Types, SchemaTimestampsConfig } from 'mongoose';
+import { ServiceModel } from '../service/service.model';
 
 export enum CompanyStatus {
   Main,
@@ -12,6 +13,8 @@ export interface ICompany extends SchemaTimestampsConfig {
 
 @Schema({ autoIndex: true })
 export class CompanyModel implements ICompany {
+  @Prop({ type: [Types.ObjectId], ref: '_companyId' })
+  services: ServiceModel[];
   @Prop()
   title: string;
   @Prop()

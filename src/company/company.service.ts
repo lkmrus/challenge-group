@@ -1,31 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CompanyDocument, CompanyModel } from './company.model';
 import { CompanyDto } from './dto/company.dto';
+import { FindCompanyDto } from './dto/find-company.dto';
+import { ServiceModel } from '../service/service.model';
 
 @Injectable()
 export class CompanyService {
   constructor(
-    private readonly configService: ConfigService,
     @InjectModel(CompanyModel.name)
-    private authDocumentModel: Model<CompanyDocument>,
+    private companyDocumentModel: Model<CompanyDocument>,
   ) {}
 
   async create(data: CompanyDto) {
-    return;
+    return this.companyDocumentModel.create(data);
   }
   async get(id: string) {
-    return;
+    return this.companyDocumentModel.findById(id);
   }
   async delete(id: string) {
-    return;
+    return this.companyDocumentModel.findByIdAndDelete(id);
   }
   async patch(id: string, data: CompanyDto) {
-    return;
+    return this.companyDocumentModel.findByIdAndUpdate(id, data);
   }
-  async find(data: { id: string; serviceId: string | null }) {
-    return [];
+  async find(data: FindCompanyDto) {
+    const query: {
+      _id?: Types.ObjectId;
+    } = {};
+
+    data.id && (query._id = new Types.ObjectId(data.id));
+
+    return this.companyDocumentModel
+      .find(query)
+      .populate('services', null, ServiceModel.name)
+      .exec();
   }
 }

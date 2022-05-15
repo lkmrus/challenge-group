@@ -3,19 +3,18 @@ import { CompanyController } from './company.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CompanyModel, CompanySchema } from './company.model';
 import { CompanyService } from './company.service';
-import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
         name: CompanyModel.name,
-        collection: 'Auth',
+        collection: 'Company',
         schema: CompanySchema,
       },
     ]),
   ],
   controllers: [CompanyController],
-  providers: [CompanyService, ConfigService],
+  providers: [CompanyService],
 })
 export class CompanyModule {}

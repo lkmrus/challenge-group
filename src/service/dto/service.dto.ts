@@ -1,4 +1,5 @@
 export class ServiceDto {
-  login: string;
-  password: string;
+  companyId: string;
+  title: string;
+  description: string;
 }
