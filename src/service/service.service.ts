@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ServiceDocument, ServiceModel } from './service.model';
+import { ServiceDocument, Service } from './service.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { FindServiceDto } from './dto/find-service.dto';
@@ -8,32 +8,39 @@ import { ServiceDto } from './dto/service.dto';
 @Injectable()
 export class ServiceService {
   constructor(
-    @InjectModel(ServiceModel.name)
+    @InjectModel(Service.name)
     private readonly serviceModel: Model<ServiceDocument>,
   ) {}
 
-  async find({ limit, company }: FindServiceDto): Promise<ServiceModel[]> {
-    return this.serviceModel.find({ company }).limit(limit);
+  async getServices({ limit, company }: FindServiceDto): Promise<Service[]> {
+    const filter = company ? { company } : {};
+    return this.serviceModel.find({ filter }).limit(limit || 0);
   }
-  async create({
+
+  async createService({
     companyId,
     title,
     description,
-  }: ServiceDto): Promise<ServiceModel> {
-    const _companyId = new Types.ObjectId(companyId);
-    return this.serviceModel.create({
+  }: ServiceDto): Promise<Service> {
+    const company = new Types.ObjectId(companyId);
+    const model = new this.serviceModel({
       title,
       description,
-      _companyId,
+      company,
     });
+    // TODO push id to company
+    return model.save();
   }
-  async get(id: string): Promise<ServiceModel | null> {
-    return this.serviceModel.findById(id);
+
+  async getById(id: string): Promise<Service | null> {
+    return this.serviceModel.findById(id).populate('company').exec();
   }
-  async delete(id: string): Promise<ServiceModel | null> {
+
+  async delete(id: string): Promise<Service | null> {
     return this.serviceModel.findByIdAndDelete(id);
   }
-  async patch(id: string, data: ServiceDto): Promise<ServiceModel | null> {
+
+  async updateById(id: string, data: ServiceDto): Promise<Service | null> {
     return this.serviceModel.findByIdAndUpdate(id, data);
   }
 }

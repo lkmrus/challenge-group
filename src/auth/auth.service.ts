@@ -1,5 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { AuthDocument, AuthModel } from './auth.model';
+import { AuthDocument, Auth } from './auth.model';
 import { Model } from 'mongoose';
 import { AuthDto } from './dto/auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -10,13 +10,13 @@ import { ConfigService } from '@nestjs/config';
 export class AuthService {
   constructor(
     private readonly configService: ConfigService,
-    @InjectModel(AuthModel.name) private authDocumentModel: Model<AuthDocument>,
+    @InjectModel(Auth.name) private authDocumentModel: Model<AuthDocument>,
   ) {}
 
   async register({
     email,
     password,
-  }: AuthDto): Promise<Omit<AuthModel, 'passwordHash'> | null> {
+  }: AuthDto): Promise<Omit<Auth, 'passwordHash'> | null> {
     const passwordHash = await hash(
       password,
       this.configService.get<string>('auth.salt') || '',
@@ -36,7 +36,7 @@ export class AuthService {
     return createModel.save();
   }
 
-  async login({ email, password }: AuthDto): Promise<AuthModel> {
+  async login({ email, password }: AuthDto): Promise<Auth> {
     const passwordHash = await hash(
       password,
       this.configService.get<string>('auth.salt') || '',

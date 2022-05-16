@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
-import { AuthModel } from './auth.model';
+import { Auth } from './auth.model';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -10,7 +10,7 @@ export class AuthController {
   @Post('register')
   async register(
     @Body() dto: AuthDto,
-  ): Promise<Omit<AuthModel, 'passwordHash'> | null> {
+  ): Promise<Omit<Auth, 'passwordHash'> | null> {
     return this.authService.register(dto);
   }
 
@@ -18,7 +18,7 @@ export class AuthController {
   @Post('login')
   async login(
     @Body() dto: AuthDto,
-  ): Promise<Omit<AuthModel, 'passwordHash'> | null> {
+  ): Promise<Omit<Auth, 'passwordHash'> | null> {
     return this.authService.login(dto);
   }
 }

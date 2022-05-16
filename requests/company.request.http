@@ -1,0 +1,3 @@
+GET http://localhost:3007/company/6282975e71a4b98ad1fca31f
+Accept: application/json
+Content-Type: application/json

@@ -6,7 +6,7 @@ export interface IAuth extends SchemaTimestampsConfig {
 }
 
 @Schema({ autoIndex: true })
-export class AuthModel implements IAuth {
+export class Auth implements IAuth {
   @Prop()
   passwordHash: string;
 
@@ -14,5 +14,5 @@ export class AuthModel implements IAuth {
   email: string;
 }
 
-export const AuthSchema = SchemaFactory.createForClass(AuthModel);
-export type AuthDocument = AuthModel & Document;
+export const AuthSchema = SchemaFactory.createForClass(Auth);
+export type AuthDocument = Auth & Document;

@@ -1,3 +1,4 @@
 export class FindCompanyDto {
-  id: string;
+  title: string;
+  phone: string;
 }

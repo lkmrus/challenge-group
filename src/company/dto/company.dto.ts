@@ -1,8 +1,9 @@
 import { CompanyStatus } from '../company.model';
+import { ServiceDto } from '../../service/dto/service.dto';
 
 export class CompanyDto {
-  title: string;
-  phone: string;
+  services: [ServiceDto];
+  title?: string;
+  phone?: string;
   status?: CompanyStatus;
-  createdAt: Date;
 }

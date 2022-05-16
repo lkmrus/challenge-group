@@ -7,10 +7,11 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CompanyDto } from './dto/company.dto';
 import { CompanyService } from './company.service';
-import { CompanyModel } from './company.model';
+import { Company } from './company.model';
 import { FindCompanyDto } from './dto/find-company.dto';
 
 @Controller('company')
@@ -19,17 +20,17 @@ export class CompanyController {
 
   @HttpCode(201)
   @Post()
-  async create(@Body() dto: CompanyDto): Promise<CompanyModel | null> {
+  async create(@Body() dto: CompanyDto): Promise<Company | null> {
     return this.companyService.create(dto);
   }
 
   @Get(':id')
-  async get(@Param('id') id: string): Promise<CompanyModel | null> {
+  async get(@Param('id') id: string): Promise<Company | null> {
     return this.companyService.get(id);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<CompanyModel | null> {
+  async delete(@Param('id') id: string): Promise<Company | null> {
     return this.companyService.delete(id);
   }
 
@@ -37,15 +38,15 @@ export class CompanyController {
   async patch(
     @Param('id') id: string,
     @Body() dto: CompanyDto,
-  ): Promise<CompanyModel | null> {
+  ): Promise<Company | null> {
     return this.companyService.patch(id, dto);
   }
 
-  @Post('search')
+  @Get()
   async find(
-    @Body()
+    @Query()
     dto: FindCompanyDto,
-  ): Promise<CompanyModel[]> {
+  ): Promise<Company[]> {
     return this.companyService.find(dto);
   }
 }

@@ -1,9 +1,0 @@
-POST http://localhost:3007/service/
-Accept: application/json
-Content-Type: application/json
-
-{
-  "companyId": "628164d279ed17f91c733e88",
-  "title":  "QA",
-  "description": "Some description about QA service"
-}

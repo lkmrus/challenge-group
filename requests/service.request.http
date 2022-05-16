@@ -1,0 +1,9 @@
+POST http://localhost:3007/service
+Accept: application/json
+Content-Type: application/json
+
+{
+  "companyId": "6282975e71a4b98ad1fca31f",
+  "title":  "Development",
+  "description": "Some description about Development service"
+}

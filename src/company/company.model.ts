@@ -1,20 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types, SchemaTimestampsConfig } from 'mongoose';
-import { ServiceModel } from '../service/service.model';
+import { Document, Types } from 'mongoose';
+import { Service } from '../service/service.model';
 
 export enum CompanyStatus {
   Main,
   Child,
 }
 
-export interface ICompany extends SchemaTimestampsConfig {
-  deletedAt?: Date;
-}
-
-@Schema({ autoIndex: true })
-export class CompanyModel implements ICompany {
-  @Prop({ type: [Types.ObjectId], ref: '_companyId' })
-  services: ServiceModel[];
+@Schema({ autoIndex: true, timestamps: true })
+export class Company {
+  @Prop({
+    type: [{ type: Types.ObjectId, ref: 'Service' }],
+  })
+  services: Service[];
   @Prop()
   title: string;
   @Prop()
@@ -25,5 +23,5 @@ export class CompanyModel implements ICompany {
   deletedAt: Date;
 }
 
-export const CompanySchema = SchemaFactory.createForClass(CompanyModel);
-export type CompanyDocument = CompanyModel & Document;
+export const CompanySchema = SchemaFactory.createForClass(Company);
+export type CompanyDocument = Company & Document;
